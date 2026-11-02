@@ -1444,26 +1444,3 @@ bis-tee3d, .tee3d { position: relative; display: block; width: 100%; aspect-rati
 @keyframes vc-pulse { 0% { box-shadow: 0 0 0 0 rgba(var(--acid-rgb), .7); } 70% { box-shadow: 0 0 0 8px rgba(var(--acid-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--acid-rgb), 0); } }
 @keyframes vc-bump { 0% { transform: translateY(0); } 30% { transform: translateY(-6px) rotate(-1.5deg); color: var(--acid); } 100% { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .viewcount__live i, .viewcount.is-bump .viewcount__num { animation: none; } }
-
-/* 3D Tee Lab: piece picker */
-.studio__picker { margin-top: 28px; min-width: 0; max-width: 100%; }
-.studio__picker-label { color: var(--muted); font-size: 10px; letter-spacing: .2em; margin-bottom: 10px; }
-.studio__picks { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 2px 2px 6px; margin: -2px; scrollbar-width: none; }
-.studio__picks::-webkit-scrollbar { display: none; }
-.studio__pick { flex: 0 0 auto; width: 84px; display: grid; gap: 8px; justify-items: center; padding: 8px 6px 10px; border: 1px solid var(--line); background: rgba(var(--paper-rgb), .03); color: var(--fg); cursor: pointer; scroll-snap-align: start; transition: border-color .2s, background .2s; }
-.studio__pick:hover { border-color: rgba(var(--paper-rgb), .4); }
-.studio__pick:focus-visible { outline: 2px solid var(--acid); outline-offset: 2px; }
-.studio__pick[aria-pressed="true"] { border-color: var(--acid); background: rgba(var(--acid-rgb), .1); box-shadow: 0 0 0 2px rgba(var(--acid-rgb), .25); }
-.studio__pick-img { width: 56px; height: 56px; display: grid; place-items: center; background: radial-gradient(70% 70% at 50% 40%, #262626, #0b0b0b); }
-.studio__pick-img img { width: 86%; height: 86%; object-fit: contain; }
-.studio__pick-name { font-size: 9px; letter-spacing: .08em; line-height: 1.25; text-align: center; text-transform: uppercase; }
-.studio__pick[aria-pressed="true"] .studio__pick-name { color: var(--acid); }
-@media (min-width: 990px) { .studio__picks { flex-wrap: wrap; overflow: visible; } .studio__pick { width: 78px; } }
-/* Phones/tablets: keep the 3D stage right under the picker so a tap shows the change */
-@media (max-width: 989px) {
-  .studio__grid:has(.studio__picker) { gap: 0; }
-  .studio__grid:has(.studio__picker) > .studio__copy { display: contents; }
-  .studio__grid:has(.studio__picker) > .studio__stage { order: 1; margin-top: 16px; }
-  .studio__grid:has(.studio__picker) .studio__product { order: 2; }
-}
-@media (max-width: 749px) { .studio__pick { width: 74px; } }
