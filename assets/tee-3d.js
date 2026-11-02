@@ -40,12 +40,11 @@ class BisTee3d extends HTMLElement {
     if (!this.canvas || saveData || !webgl()) { this.classList.add('is-off'); return; }
 
     this.addEventListener('click', (e) => {
+      const chip = e.target.closest('[data-tee3d-color]');
+      if (chip && this.contains(chip)) { this.setColor(chip.dataset.tee3dColor, chip.dataset.colorName); return; }
       const b = e.target.closest('[data-tee3d-action]');
       if (!b || !this.contains(b)) return;
       this.action(b.dataset.tee3dAction, b);
-    });
-    this.querySelectorAll('[data-tee3d-color]').forEach((chip) => {
-      chip.addEventListener('click', () => this.setColor(chip.dataset.tee3dColor, chip.dataset.colorName));
     });
 
     // follow the colour picked in the product form
@@ -180,6 +179,40 @@ class BisTee3d extends HTMLElement {
     await this.buildFigure();
     this.classList.remove('is-loading');
     this.say(`Showing ${name || 'new colour'}.`);
+  }
+
+  /** Swap to a different piece (garment, prints, colours) without reloading the page. */
+  async setPiece(piece) {
+    if (!this.cfg || !piece) return;
+    const colors = piece.colors && piece.colors.length ? piece.colors : [{ name: 'Black', hex: '#141414' }];
+    const keep = colors.find((c) => c.hex === this.color);
+    const color = keep ? keep.hex : colors[0].hex;
+    const name = keep ? keep.name : colors[0].name;
+    this.cfg = Object.assign({}, this.cfg, piece, { colors, color });
+    this.color = color;
+
+    const group = this.querySelector('.tee3d__swatches');
+    if (group) {
+      group.innerHTML = '';
+      colors.forEach((c) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'tee3d__swatch';
+        b.dataset.tee3dColor = c.hex; b.dataset.colorName = c.name;
+        b.title = c.name; b.setAttribute('aria-pressed', String(c.hex === color));
+        const dot = document.createElement('span'); dot.className = 'tee3d__dot'; dot.style.background = c.hex;
+        const lab = document.createElement('span'); lab.className = 'visually-hidden'; lab.textContent = c.name;
+        b.append(dot, lab); group.append(b);
+      });
+    }
+    if (this.canvas && piece.title) this.canvas.setAttribute('aria-label', `Interactive 3D view of ${piece.title}. Drag or use the arrow keys to turn it, plus and minus to zoom.`);
+
+    if (!this.figure) return; // not booted yet: boot() will build from the new cfg
+    const token = (this._pieceToken = (this._pieceToken || 0) + 1);
+    this.classList.add('is-loading');
+    try { await this.buildFigure(); } catch (e) { console.warn('[BIS] piece swap failed', e); }
+    if (token !== this._pieceToken) return;
+    this.classList.remove('is-loading');
+    this.say(`Showing ${piece.title || 'new piece'} in ${name}.`);
   }
 
   action(name, btn) {
@@ -356,4 +389,24 @@ document.addEventListener('click', (e) => {
   } else {
     const o = gallery.querySelector('[data-tee3d-open]'); o && o.focus({ preventScroll: true });
   }
+});
+
+// Homepage 3D Tee Lab: pick which piece is on the stage.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-tee3d-piece]');
+  if (!btn) return;
+  const section = btn.closest('[data-tee3d-studio]');
+  if (!section) return;
+  let piece;
+  try { piece = JSON.parse(btn.dataset.tee3dPiece); } catch (err) { return; }
+  section.querySelectorAll('[data-tee3d-piece]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+  const set = (sel, fn) => section.querySelectorAll(sel).forEach(fn);
+  set('[data-studio-name]', (el) => { el.textContent = piece.title; });
+  set('[data-studio-type]', (el) => { el.textContent = piece.type || ''; });
+  set('[data-price-current]', (el) => { el.textContent = piece.price || ''; });
+  set('[data-studio-link]', (el) => {
+    el.setAttribute('href', window.BIS_PREVIEW ? `product-${piece.handle}.html` : `/products/${piece.handle}`);
+  });
+  const tee = section.querySelector('bis-tee3d');
+  if (tee && tee.setPiece) tee.setPiece(piece);
 });
