@@ -1433,12 +1433,12 @@ bis-tee3d, .tee3d { position: relative; display: block; width: 100%; aspect-rati
 @media (max-width: 749px) { .tee3d__controls { left: 12px; transform: none; } .tee3d__hint { left: 12px; transform: none; } }
 
 /* ---------- Live view counter (footer) ---------- */
-.viewcount { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; max-width: 1640px; margin: 0 auto; padding: 22px var(--gutter); border-top: 1px solid var(--line); }
+.viewcount { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; max-width: 1640px; margin: 0 auto; padding: 16px var(--gutter); border-top: 1px solid var(--line); }
 .viewcount[hidden] { display: none; }
 .viewcount__live { display: inline-flex; align-items: center; gap: 7px; padding: 4px 8px 3px; border: 1px solid var(--acid); color: var(--acid); font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .viewcount__live i { width: 8px; height: 8px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 0 0 rgba(var(--acid-rgb), .7); animation: vc-pulse 1.6s infinite; }
-.viewcount__num { font-family: var(--font-display); font-weight: 900; font-stretch: 62%; font-size: clamp(40px, 9vw, 72px); line-height: .9; letter-spacing: .01em; color: var(--paper); font-variant-numeric: tabular-nums; text-shadow: 3px 3px 0 var(--acid); }
-.viewcount__text { display: grid; gap: 4px; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.viewcount__num { font-family: var(--font-display); font-weight: 900; font-stretch: 62%; font-size: clamp(30px, 6.5vw, 52px); line-height: .9; letter-spacing: .01em; color: var(--paper); font-variant-numeric: tabular-nums; text-shadow: 2px 2px 0 var(--acid); }
+.viewcount__text { display: grid; gap: 4px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .viewcount__text b { color: var(--fg); font-weight: 500; }
 .viewcount.is-bump .viewcount__num { animation: vc-bump .45s var(--ease-out); }
 @keyframes vc-pulse { 0% { box-shadow: 0 0 0 0 rgba(var(--acid-rgb), .7); } 70% { box-shadow: 0 0 0 8px rgba(var(--acid-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--acid-rgb), 0); } }
