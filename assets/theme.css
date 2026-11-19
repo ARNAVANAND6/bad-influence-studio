@@ -1444,3 +1444,51 @@ bis-tee3d, .tee3d { position: relative; display: block; width: 100%; aspect-rati
 @keyframes vc-pulse { 0% { box-shadow: 0 0 0 0 rgba(var(--acid-rgb), .7); } 70% { box-shadow: 0 0 0 8px rgba(var(--acid-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--acid-rgb), 0); } }
 @keyframes vc-bump { 0% { transform: translateY(0); } 30% { transform: translateY(-6px) rotate(-1.5deg); color: var(--acid); } 100% { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .viewcount__live i, .viewcount.is-bump .viewcount__num { animation: none; } }
+
+/* ---------- Thorn menu (3D chrome thorn sculpture + stacked links) ---------- */
+.menu-drawer--spine {
+  overflow: hidden;
+  background:
+    radial-gradient(45% 50% at 50% 50%, rgba(120, 10, 18, .45), transparent 72%),
+    radial-gradient(95% 75% at 50% 50%, #140405 0%, #070303 55%, #020202 100%);
+}
+.menu-drawer--spine::after { /* film grain */
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .12; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.menu-drawer--spine .menu-drawer__top, .menu-drawer--spine .menu-drawer__foot { position: relative; z-index: 2; }
+.menu-drawer--spine nav { flex: 1; position: relative; display: flex; min-height: 0; margin: 0 calc(-1 * var(--gutter)); }
+.spine { position: relative; flex: 1; }
+.spine__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.spine__list { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.spine__link {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: auto; width: max-content;
+  display: flex; flex-direction: column; text-decoration: none; color: var(--paper);
+  font-family: var(--font-display); font-stretch: 62%; font-variation-settings: 'wdth' 62; font-weight: 850;
+  text-transform: uppercase; font-size: clamp(24px, 7.4vw, 48px); line-height: .9; letter-spacing: .01em;
+  text-shadow: 0 2px 0 #000, 0 0 16px rgba(0, 0, 0, 1), 0 0 34px rgba(0, 0, 0, .9);
+  transition: color .2s, letter-spacing .35s var(--ease-out);
+}
+/* left-side labels hang off the link's left edge, right-side ones off its right edge */
+.spine__link--l { transform: translate(-100%, -50%); align-items: flex-end; text-align: right; }
+.spine__link--r { transform: translate(0, -50%); align-items: flex-start; text-align: left; }
+.spine__link::after { /* chrome underline that slices in on hover */
+  content: ''; position: absolute; left: 0; bottom: -5px; height: 2px; width: 100%;
+  background: linear-gradient(90deg, var(--acid), #fff 50%, var(--acid)); transform: scaleX(0); transition: transform .35s var(--ease-out);
+}
+.spine__link:hover, .spine__link:focus-visible, .spine__link[aria-current] { color: var(--acid); letter-spacing: .05em; }
+.spine__link:hover::after, .spine__link:focus-visible::after { transform: scaleX(1); }
+.spine__num { font-family: var(--font-mono, 'IBM Plex Mono', monospace); font-size: 11px; font-weight: 500; letter-spacing: .2em; color: var(--acid); margin-bottom: 4px; text-shadow: 0 0 8px #000; }
+.menu-drawer--spine[open] .spine__canvas { animation: thornIn 1.2s var(--ease-out) both; }
+.menu-drawer--spine[open] .spine__link { animation: spineLink .7s var(--ease-out) both; animation-delay: calc(var(--n) * 90ms + 600ms); }
+@keyframes thornIn { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: none; } }
+@keyframes spineLink { from { opacity: 0; filter: blur(8px); } to { opacity: 1; filter: none; } }
+@media (min-width: 750px) { .spine__link { font-size: clamp(36px, 3.6vw, 58px); } }
+@media (prefers-reduced-motion: reduce) {
+  .menu-drawer--spine[open] .spine__canvas, .menu-drawer--spine[open] .spine__link { animation: none; }
+}
+@media (min-width: 990px) {
+  .header__inner:has(.header__menu-btn) { grid-template-columns: auto auto 1fr auto; }
+  .header__menu-btn { display: inline-flex; }
+  .header__menu-btn::after { content: 'MENU'; font-size: 12px; letter-spacing: .12em; }
+}

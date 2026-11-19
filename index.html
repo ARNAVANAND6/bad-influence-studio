@@ -132,7 +132,7 @@
   </div>
 </header>
 
-<dialog class="menu-drawer scheme-ink" id="MenuDrawer" aria-label="Menu" data-menu-drawer>
+<dialog class="menu-drawer menu-drawer--spine scheme-ink" id="MenuDrawer" aria-label="Menu" data-menu-drawer>
   <div class="menu-drawer__top">
     <svg class="logo logo--svg logo--horizontal" viewBox="0 0 610 96" role="img" aria-label="BAD INFLUENCE STUDIO">
       <title>BAD INFLUENCE STUDIO</title>
@@ -164,19 +164,14 @@
     <button type="button" class="icon-btn" data-dialog-close aria-label="Close menu"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m5 5 14 14M19 5 5 19" stroke="currentColor" stroke-width="2"/></svg></button>
   </div>
   <nav aria-label="Mobile">
-    <ol class="menu-drawer__list" role="list"><li>
-          <a href="/collections/all" class="menu-drawer__link">
-            <span class="menu-drawer__num mono">01</span>SHOP
-          </a></li><li>
-          <a href="/collections/new-drop" class="menu-drawer__link">
-            <span class="menu-drawer__num mono">02</span>NEW DROP
-          </a></li><li>
-          <a href="/pages/about" class="menu-drawer__link">
-            <span class="menu-drawer__num mono">03</span>ABOUT
-          </a></li><li>
-          <a href="/pages/contact" class="menu-drawer__link">
-            <span class="menu-drawer__num mono">04</span>CONTACT
-          </a></li></ol>
+    <div class="spine" data-spine>
+      <a href="/collections/all" class="spine__link" data-spine-at="1"><span class="spine__num">01</span>Shop all</a>
+      <a href="/collections/new-drop" class="spine__link" data-spine-at="3"><span class="spine__num">02</span>New drop</a>
+      <a href="/products/bad-habit-tee" class="spine__link" data-spine-at="5"><span class="spine__num">03</span>Tees</a>
+      <a href="/products/after-hours-long-sleeve" class="spine__link" data-spine-at="7"><span class="spine__num">04</span>Long<br>sleeves</a>
+      <a href="/products/no-good-influence-hoodie" class="spine__link" data-spine-at="9"><span class="spine__num">05</span>Hoodies</a>
+      <a href="/pages/about" class="spine__link" data-spine-at="11"><span class="spine__num">06</span>About</a>
+    </div>
   </nav>
   <div class="menu-drawer__foot mono"><a href="/account">Log in</a><span class="menu-drawer__tag">Not made to fit in.</span>
   </div>
@@ -509,5 +504,6 @@ GOOD CLOTHES.</h2>
 
     <div class="toast" role="status" aria-live="polite" hidden></div>
   <script src="./assets/view-counter.js" defer></script>
+<script src="./assets/spine-menu.js" defer></script>
 </body>
 </html>
